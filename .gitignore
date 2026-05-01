@@ -1,0 +1,7 @@
+gitignore id="jlwm24"
+venv/
+__pycache__/
+.env
+.pytest_cache/
+*.pyc
+app/uploads/
