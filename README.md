@@ -45,6 +45,7 @@ Obtiene resumen por severidad.
 ## Variables de entorno
 
 DATABASE_URL=postgresql://postgres:postgres@db:5432/vulnerabilities
+JWT_SECRET_KEY=Julian*123
 
 ## Ejemplos
 
