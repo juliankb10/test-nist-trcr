@@ -53,12 +53,13 @@ JWT_SECRET_KEY=Julian*123
 
 ```bash
 curl http://localhost:8000/v1/vulnerabilities
-````
 
 ### Marcar como fixed
 
+```bash
 curl -X POST http://localhost:8000/v1/fixed \
 -H "Content-Type: application/json" \
 -d '{
 "cve_ids": ["CVE-2024-1234"]
 }'
+````

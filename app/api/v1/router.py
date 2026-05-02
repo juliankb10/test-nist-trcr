@@ -3,11 +3,8 @@ from fastapi import APIRouter
 from app.api.v1.endpoints import (
     vulnerabilities,
     fixed,
+    auth
 )
-
-from app.api.v1.endpoints import auth
-
-from app.api.v1.endpoints import uploads
 
 api_router = APIRouter()
 
@@ -27,10 +24,4 @@ api_router.include_router(
     fixed.router,
     prefix="/v1",
     tags=["Fixed"],
-)
-
-api_router.include_router(
-    uploads.router,
-    prefix="/v1",
-    tags=["Uploads"],
 )
