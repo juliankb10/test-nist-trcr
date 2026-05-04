@@ -54,3 +54,16 @@ class FixedRepository:
     def save(db: Session):
 
         db.commit()
+
+    @staticmethod
+    def delete(db, cve_id: str):
+        vulnerability = (
+            db.query(FixedVulnerability)
+            .filter(
+                FixedVulnerability.cve_id == cve_id
+            )
+            .first()
+        )
+
+        if vulnerability:
+            db.delete(vulnerability)
