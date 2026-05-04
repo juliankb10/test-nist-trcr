@@ -1,3 +1,4 @@
+from datetime import datetime
 from fastapi import APIRouter, Depends
 from fastapi import APIRouter, Query
 from sqlalchemy.orm import Session
@@ -35,8 +36,20 @@ async def get_vulnerabilities(
     ),
     page: int = Query(1, ge=1),
     page_size: int = Query(20, ge=1, le=100),
+    cve_id: str | None = Query(
+        default=None
+    ),
     severity: str | None = Query(
         default=None
+    ),
+    published_start: datetime | None = Query(
+        default=None,
+        description="Published start date"
+    ),
+
+    published_end: datetime | None = Query(
+        default=None,
+        description="Published end date"
     ),
 ):
 
@@ -52,7 +65,32 @@ async def get_vulnerabilities(
     for item in data.get("vulnerabilities", []):
         cve = item.get("cve", {})
         current_severity = extract_severity(item)
+        published_str = cve.get("published")
+        published_date = None
+
+        if published_str:
+            published_date = datetime.fromisoformat(
+                published_str.replace("Z", "+00:00")
+            )
+        
+        if cve_id and cve_id != cve.get("id"):
+            continue
+
         if severity and severity != current_severity:
+            continue
+
+        if (
+            published_start
+            and published_date
+            and published_date < published_start
+        ):
+            continue
+
+        if (
+            published_end
+            and published_date
+            and published_date > published_end
+        ):
             continue
 
         items.append({
@@ -62,6 +100,7 @@ async def get_vulnerabilities(
                 "descriptions",
                 [{}]
             )[0].get("value"),
+            "published": cve.get("published")
         })
 
     return {
