@@ -46,7 +46,6 @@ async def get_vulnerabilities(
         default=None,
         description="Published start date"
     ),
-
     published_end: datetime | None = Query(
         default=None,
         description="Published end date"
