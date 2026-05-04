@@ -5,6 +5,8 @@ class Settings(BaseSettings):
 
     database_url: str
 
+    nvd_api: str
+
     jwt_secret_key: str
 
     jwt_algorithm: str = "HS256"

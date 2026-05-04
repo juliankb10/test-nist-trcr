@@ -46,6 +46,7 @@ Obtiene resumen por severidad.
 
 DATABASE_URL=postgresql://postgres:postgres@db:5432/vulnerabilities
 JWT_SECRET_KEY=Julian*123
+NVD_API=https://services.nvd.nist.gov/rest/json/cves/2.0
 
 ## Ejemplos
 

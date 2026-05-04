@@ -1,9 +1,7 @@
 import httpx
 
+from app.core.config import settings
 from fastapi import HTTPException
-
-BASE_URL = "https://services.nvd.nist.gov/rest/json/cves/2.0"
-
 
 async def fetch_vulnerabilities(
     params: dict | None = None,
@@ -16,7 +14,7 @@ async def fetch_vulnerabilities(
         ) as client:
 
             response = await client.get(
-                BASE_URL,
+                settings.nvd_api,
                 params=params,
             )
 

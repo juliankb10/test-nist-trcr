@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Query
 from sqlalchemy.orm import Session
-
 from app.api.dependencies import get_db
 
 from app.schemas.vulnerability import (
@@ -18,8 +18,6 @@ from app.services.vulnerability_service import (
 from app.repositories.fixed_repository import (
     FixedRepository,
 )
-
-from fastapi import APIRouter, Query
 
 from app.api.dependencies import (
     get_current_user,
@@ -43,22 +41,17 @@ async def get_vulnerabilities(
 ):
 
     start_index = (page - 1) * page_size
-
     params = {
         "startIndex": start_index,
         "resultsPerPage": page_size,
     }
 
     data = await fetch_vulnerabilities(params)
-
     items = []
 
     for item in data.get("vulnerabilities", []):
-
         cve = item.get("cve", {})
-
         current_severity = extract_severity(item)
-
         if severity and severity != current_severity:
             continue
 
@@ -88,19 +81,14 @@ async def get_active_vulnerabilities(
 ):
 
     data = await fetch_vulnerabilities()
-
     fixed_ids = FixedRepository.get_all_fixed_ids(
         db
     )
-
     active = []
 
     for item in data.get("vulnerabilities", []):
-
         cve = item.get("cve", {})
-
         cve_id = cve.get("id")
-
         if cve_id in fixed_ids:
             continue
 
@@ -118,7 +106,6 @@ async def get_summary(
     ),):
 
     data = await fetch_vulnerabilities()
-
     summary = {
         "CRITICAL": 0,
         "HIGH": 0,
@@ -127,9 +114,7 @@ async def get_summary(
     }
 
     for item in data.get("vulnerabilities", []):
-
         severity = extract_severity(item)
-
         if severity in summary:
             summary[severity] += 1
 

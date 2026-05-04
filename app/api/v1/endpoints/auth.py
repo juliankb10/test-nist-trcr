@@ -12,12 +12,10 @@ from app.core.security import (
 
 router = APIRouter()
 
-
-FAKE_USER = {
+TMP_USER = {
     "username": "admin",
     "password": "admin123",
 }
-
 
 @router.post("/login")
 async def login(
@@ -26,9 +24,8 @@ async def login(
 
     if (
         form_data.username
-        != FAKE_USER["username"]
+        != TMP_USER["username"]
     ):
-
         raise HTTPException(
             status_code=401,
             detail="Invalid credentials",
@@ -36,9 +33,8 @@ async def login(
 
     if (
         form_data.password
-        != FAKE_USER["password"]
+        != TMP_USER["password"]
     ):
-
         raise HTTPException(
             status_code=401,
             detail="Invalid credentials",
