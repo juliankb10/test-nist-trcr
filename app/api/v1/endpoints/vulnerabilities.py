@@ -6,6 +6,7 @@ from app.api.dependencies import get_db
 
 from app.schemas.vulnerability import (
     VulnerabilityListResponse,
+    VulnerabilitySummaryResponse
 )
 
 from app.services.nvd_service import (
@@ -28,7 +29,7 @@ router = APIRouter()
 
 @router.get(
     "/vulnerabilities",
-    response_model=VulnerabilityListResponse,
+    response_model=VulnerabilityListResponse
 )
 async def get_vulnerabilities(
     current_user: str = Depends(
@@ -137,7 +138,10 @@ async def get_active_vulnerabilities(
 
     return active
 
-@router.get("/vulnerabilities/summary")
+@router.get(
+    "/vulnerabilities/summary",
+    response_model=VulnerabilitySummaryResponse
+)
 async def get_summary(
     current_user: str = Depends(
         get_current_user
